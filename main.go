@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-
-	"gopkg.in/yaml.v2"
 )
 
 func main() {
@@ -36,4 +34,8 @@ func main() {
 	} else {
 		fmt.Printf("File does not exist\n")
 	}
+
+	var configLoader = new(ConfigLoader)
+	configLoader.LoadConfig()
+
 }
