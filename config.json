@@ -1,0 +1,11 @@
+{
+  "fruits" : {
+    "a": "apple",
+    "b": "banana",
+    "number" : 1
+  },
+  "colors" : {
+    "r": "red",
+    "g": "green"
+  }
+}
