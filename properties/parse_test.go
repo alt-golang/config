@@ -35,12 +35,31 @@ func TestParse(t *testing.T) {
 		fmt.Printf("File does not exist\n")
 	}
 
-	//os.Setenv("GO_ENV", "environment")
-	//os.Setenv("GO_APP_INSTANCE", "instance")
-	//os.Setenv("GO_PROFILES_ACTIVE", "1,2")
-	//var config map[string]interface{}
-	//config = loader.LoadConfigWithDir("test/config/properties")
-	//fmt.Println(config)
-	fmt.Printf("The end\n")
+	content := `#comment line
+    #coment line
+default=default
+application=application
+environment=default
+env-instance=default
+local=default
+local-development=default
+application-profile-1=default
+application-profile-2=default
+newline=application
+
+step1.step2.step3=application
+multiline1=1-\
+  2-\
+  3\
+multiline2=r+\
+  g+\
+  b\  
+l2.multiline3=1-\
+  2-\
+  3\
+multiline4=application\
+`
+	config := Parse(content)
+	fmt.Println(config)
 	t.Log("Meh")
 }
