@@ -104,8 +104,27 @@ func LoadConfigByPrecedence(configDir string) map[string]interface{} {
 			AssignIn(config, precendentConfig)
 		}
 	}
-
 	return config
+}
+
+func Normalise(object map[interface{}]interface{}) map[string]interface{} {
+	result := map[string]interface{}{}
+	for key, value := range object {
+		if reflect.TypeOf(value) == reflect.TypeOf(map[interface{}]interface{}{}) {
+			result[key.(string)] = Normalise(value.(map[interface{}]interface{}))
+		} else if reflect.TypeOf(value).Kind() == reflect.Slice {
+			s := value.([]interface{})
+			for i := 0; i < len(s); i++ {
+				if reflect.TypeOf(s[i]) == reflect.TypeOf(map[interface{}]interface{}{}) {
+					s[i] = Normalise(s[i].(map[interface{}]interface{}))
+				}
+			}
+			result[key.(string)] = s
+		} else {
+			result[key.(string)] = value
+		}
+	}
+	return result
 }
 
 func AssignIn(config map[string]interface{}, object map[string]interface{}) {
@@ -119,22 +138,11 @@ func AssignIn(config map[string]interface{}, object map[string]interface{}) {
 			if reflect.TypeOf(config[key]) == reflect.TypeOf(map[string]interface{}{}) {
 				if reflect.TypeOf(object[key]) == reflect.TypeOf(map[string]interface{}{}) {
 					AssignIn(config[key].(map[string]interface{}), object[key].(map[string]interface{}))
-				} else if reflect.TypeOf(object[key]) == reflect.TypeOf(map[interface{}]interface{}{}) {
-					AssignIn(config[key].(map[string]interface{}), ConvertIn(object[key].(map[interface{}]interface{})))
 				} else {
 					config[key] = object[key]
 				}
-
-			} else if reflect.TypeOf(config[key]) == reflect.TypeOf(map[interface{}]interface{}{}) {
-				if reflect.TypeOf(object[key]) == reflect.TypeOf(map[string]interface{}{}) {
-					AssignIn(ConvertIn(config[key].(map[interface{}]interface{})), object[key].(map[string]interface{}))
-				} else if reflect.TypeOf(object[key]) == reflect.TypeOf(map[interface{}]interface{}{}) {
-					AssignIn(ConvertIn(config[key].(map[interface{}]interface{})), ConvertIn(object[key].(map[interface{}]interface{})))
-				} else {
-					config[key] = object[key]
-				}
-			} else if reflect.TypeOf(config[key]) == reflect.TypeOf([]interface{}{}) &&
-				reflect.TypeOf(object[key]) == reflect.TypeOf([]interface{}{}) {
+			} else if reflect.TypeOf(config[key]).Kind() == reflect.Slice &&
+				reflect.TypeOf(object[key]).Kind() == reflect.Slice {
 				configList := config[key].([]interface{})
 				objectList := object[key].([]interface{})
 				for j := 0; j < len(objectList); j++ {
@@ -142,21 +150,12 @@ func AssignIn(config map[string]interface{}, object map[string]interface{}) {
 						if reflect.TypeOf(configList[j]) == reflect.TypeOf(map[string]interface{}{}) {
 							if reflect.TypeOf(objectList[j]) == reflect.TypeOf(map[string]interface{}{}) {
 								AssignIn(configList[j].(map[string]interface{}), objectList[j].(map[string]interface{}))
-							} else if reflect.TypeOf(objectList[j]) == reflect.TypeOf(map[interface{}]interface{}{}) {
-								AssignIn(configList[j].(map[string]interface{}), ConvertIn(objectList[j].(map[interface{}]interface{})))
 							} else {
 								configList[j] = objectList[j]
 							}
-						} else if reflect.TypeOf(configList[j]) == reflect.TypeOf(map[interface{}]interface{}{}) {
-							if reflect.TypeOf(objectList[j]) == reflect.TypeOf(map[string]interface{}{}) {
-								AssignIn(ConvertIn(configList[j].(map[interface{}]interface{})), objectList[j].(map[string]interface{}))
-							} else if reflect.TypeOf(objectList[j]) == reflect.TypeOf(map[interface{}]interface{}{}) {
-								AssignIn(ConvertIn(configList[j].(map[interface{}]interface{})), ConvertIn(objectList[j].(map[interface{}]interface{})))
-							} else {
-								configList[j] = objectList[j]
-							}
+						} else {
+							configList[j] = objectList[j]
 						}
-
 					} else {
 						config[key] = append(configList, objectList[j])
 					}
@@ -166,26 +165,6 @@ func AssignIn(config map[string]interface{}, object map[string]interface{}) {
 			}
 		}
 	}
-}
-
-func ConvertIn(object map[interface{}]interface{}) map[string]interface{} {
-	result := map[string]interface{}{}
-	for key, value := range object {
-		result[key.(string)] = value
-	}
-	return result
-}
-
-func Normalise(object map[interface{}]interface{}) map[string]interface{} {
-	result := map[string]interface{}{}
-	for key, value := range object {
-		if reflect.TypeOf(value) == reflect.TypeOf(map[interface{}]interface{}{}) {
-			result[key.(string)] = Normalise(value.(map[interface{}]interface{}))
-		} else {
-			result[key.(string)] = value
-		}
-	}
-	return result
 }
 
 /*

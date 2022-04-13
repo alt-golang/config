@@ -13,7 +13,6 @@ func TestJSONConfigIsOverloaded(t *testing.T) {
 	var config map[string]interface{}
 	config = LoadConfigWithDir("../test/config/json")
 
-	t.Log(config)
 	if config["default"] != "default" {
 		t.Errorf("config[\"default\"] != \"default\": default is:%s", config["default"])
 	}
@@ -77,7 +76,6 @@ func TestYAMLConfigIsOverloaded(t *testing.T) {
 	if config["local-development"] != "local-development" {
 		t.Errorf("config[\"local-development\"] != \"local-development\": local-development is:%s", config["local-development"])
 	}
-	t.Log(config)
 }
 
 func TestPropertiesConfigIsOverloaded(t *testing.T) {
@@ -119,20 +117,34 @@ func TestPropertiesConfigIsOverloaded(t *testing.T) {
 func TestNestedPropertiesConfigIsOverloaded(t *testing.T) {
 	var config map[string]interface{}
 	config = LoadConfigWithDir("../test/config/nesting")
-	t.Log(config)
-	t.Log(config["level1"])
-	t.Log(config["level1"].(map[string]interface{})["level2"])
 
 	level1 := config["level1"].(map[string]interface{})
 	level2 := level1["level2"].(map[string]interface{})
+	list := level2["list"].([]interface{})
+	list2 := level2["list2"].([]interface{})
 
 	if level2["key1"].(string) != "default" {
-		t.Errorf("level2[\"key1\"].(string) != \"default\" != \"default\" is:%s", level2["key1"].(string))
+		t.Errorf("level2[\"key1\"].(string) != \"default\"; \"default\" is:%s", level2["key1"].(string))
 	}
 	if level2["key2"].(string) != "application" {
-		t.Errorf("level2[\"key2\"].(string) != \"default\" != \"application\" is:%s", level2["key2"].(string))
+		t.Errorf("level2[\"key2\"].(string) != \"default\";  \"application\" is:%s", level2["key2"].(string))
 	}
-	t.Log("done")
+	if list[0] != "application" {
+		t.Errorf("list[0] != \"application\"; application is %s", list[0].(string))
+	}
+	if list[1] != "application" {
+		t.Errorf("list[1] != \"application\"; application is %s", list[1].(string))
+	}
+	key3 := list[2].(map[string]interface{})["default"].(map[string]interface{})["key3"].(string)
+	if key3 != "default" {
+		t.Errorf("list[2].default.key3 is %s", list[1].(string))
+	}
+	if list2[0] != "application" {
+		t.Errorf("list2[0] != \"application\"; application is %s", list[1].(string))
+	}
+	if list2[1] != "application" {
+		t.Errorf("list2[1] != \"application\"; application is %s", list[1].(string))
+	}
 }
 
 //func TestPropertiesParse(t *testing.T) {
