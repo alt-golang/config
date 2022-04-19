@@ -9,7 +9,7 @@ An Extensible Port of Node Config
 --------------------------------
 An extensible port of the popular node config package, also supporting:
 - placeholder resolution (or variable expansion),
-- encrypted values (via jasypt),
+- encrypted values (via github.com/alt-golang/gosypt),
 - environment variables (via config.get("env.MY_VAR"),
 - command line parameters (via config.get("args.MY_ARG")
 - and default (or fallback) values
@@ -18,9 +18,7 @@ An extensible port of the popular node config package, also supporting:
 <a name="usage">Usage</a>
 -------------------------
 
-To use the module, substitute the named {config} module export, in place of the popular
-[config](https://www.npmjs.com/package/config) default &ndash; note, we use named exports, because the module
-exports other useful classes as well.
+To use the module, import the module as so:
 
 ```go
 import  ( "github.com/alt-golang/config") ;
