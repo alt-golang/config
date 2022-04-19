@@ -177,37 +177,3 @@ func AssignIn(config map[string]interface{}, object map[string]interface{}) {
 		}
 	}
 }
-
-/*
- assignIn(config, object) {
-    const keys = Object.keys(object);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      if (typeof (config[key]) === 'undefined') {
-        // eslint-disable-next-line   no-param-reassign
-        config[key] = object[key];
-      } else if (typeof (config[key]) === 'object') {
-        if (config[key]
-        && typeof (config[key]) !== 'undefined'
-            && typeof (config[key]) === 'object'
-            && typeof (object[key]) === 'object') {
-          this.assignIn(config[key], object[key]);
-        } else if (Array.isArray(config[key]) && Array.isArray(object[key])) {
-          for (let j = 0; j < object[key].length; j++) {
-            if (j < config[key].length) {
-              this.assignIn(config[key][j], object[key][j]);
-            } else {
-              config[key].push(object[key][j]);
-            }
-          }
-        } else {
-          // eslint-disable-next-line   no-param-reassign
-          config[key] = object[key];
-        }
-      } else {
-        // eslint-disable-next-line   no-param-reassign
-        config[key] = object[key];
-      }
-    }
-  }
-*/
