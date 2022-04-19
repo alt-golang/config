@@ -1,9 +1,0 @@
-fruite:
-  a: "apple"
-  b: "banana"
-  c:
-    - 1
-    - 2
-    - 3
-colors:
-  r: "red"

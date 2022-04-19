@@ -1,0 +1,27 @@
+{
+  "default": "default",
+  "application" : "application",
+  "environment" : "environment",
+  "env-instance" : "env-instance",
+  "local" : "local",
+  "local-development" : "local-development",
+  "application-profile-1" : "default",
+  "application-profile-2" : "default",
+  "key": "value",
+  "one" : "one",
+  "placeholder": "start.${one}.${nested.two}.end",
+  "placeholderEncrypted": "start.${nested.encrypted}.end",
+  "nested" : {
+    "key" : "value",
+    "two" : "two",
+    "placeholder": "start.${one}.${nested.two}.end",
+    "encrypted" : "enc.GdRcVgLKeYr3g5kKvq4TF1ba7OkwsUTNgTGAQ1C/usQ=",
+    "encryptedWithSecret" : "enc.QpS2Wz/UeOPyujrFEt3wp9Jj6RKyDQAVgF4JEzkWCug="
+  },
+  "providedEnvVar": "${env.PROVIDED_ENV_VAR}",
+  "missingEnvVar": "${env.MISSING_ENV_VAR}",
+  "env" : {
+    "PROVIDED_ENV_VAR" : "provided-local-value",
+    "MISSING_ENV_VAR" : "missing-local-value"
+  }
+}

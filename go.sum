@@ -1,3 +1,11 @@
+github.com/alt-golang/gosypt v0.0.1 h1:xazrddfVTs0bgIbIcqihMb+nbsGK5GQeu642fIMVNaM=
+github.com/alt-golang/gosypt v0.0.1/go.mod h1:NBZRk5vIc3FNmSu/zNLX5sL9V/QZ7WZUdasIqGT+gNw=
+github.com/alt-golang/gosypt v1.0.0 h1:5h7mwb1gjzoPfGLCR4QTshmMW2rIF5X50nNLZ7EK5yw=
+github.com/alt-golang/gosypt v1.0.0/go.mod h1:NBZRk5vIc3FNmSu/zNLX5sL9V/QZ7WZUdasIqGT+gNw=
+github.com/alt-golang/gosypt.pkg v1.0.1 h1:wcKNgfa5Aip2LRdraVhPMQCSXfeZuOsWwH8BN6IlZ3o=
+github.com/alt-golang/gosypt.pkg v1.0.1/go.mod h1:rE4VUBgRZxcm3gsGTyFdJJgC3qb/F4pQum7YLHIJTSQ=
+github.com/alt-golang/gosypt.pkg v1.0.2 h1:hsJ3DPnhg4GqOg/gjDzxJlHWghjLePOpEcpUO1RJcPI=
+github.com/alt-golang/gosypt.pkg v1.0.2/go.mod h1:rE4VUBgRZxcm3gsGTyFdJJgC3qb/F4pQum7YLHIJTSQ=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v2 v2.4.0 h1:D8xgwECY7CYvx+Y2n4sBz93Jn9JRvxdiyyo8CTfuKaY=
