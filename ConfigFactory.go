@@ -1,12 +1,19 @@
 package config
 
 import (
-	"alt-golang/config/loader"
+	"github.com/alt-golang/config/loader"
 	"os"
 )
 
 func GetConfig() Config {
+	return ConfigFactory(loader.LoadConfig())
+}
 
+func GetConfigWithDir(dir string) Config {
+	return ConfigFactory(loader.LoadConfigWithDir(dir))
+}
+
+func ConfigFactory(config map[string]interface{}) Config {
 	passphrase := os.Getenv("GO_CONFIG_PASSPHRASE")
 	if passphrase == "" {
 		passphrase = "changepassphrase"
@@ -29,22 +36,32 @@ func GetConfig() Config {
 	}
 
 	var defaultConfig = DefaultConfig{
-		object: loader.LoadConfig(),
+		object: config,
 		path:   "",
 	}
 
-	var config = ValueResolvingConfig{
+	var valueResolvingConfig = ValueResolvingConfig{
 		delegatingConfig: DelegatingConfig{
 			defaultConfig: defaultConfig,
 		},
 		resolver: delegatingResolver,
 	}
 
-	placeHolderResolver.config = config
+	placeHolderResolver.config = valueResolvingConfig
 	resolvers[0] = placeHolderResolver
 	resolvers[1] = gosyptDecryptor
 
-	return config
+	return valueResolvingConfig
 }
 
-//var config = GetConfig()
+var config = GetConfig()
+
+func Has(path string) bool {
+	return config.Has(path)
+}
+func Get(path string) (interface{}, error) {
+	return config.Get(path)
+}
+func GetWithDefault(path string, defaultValue interface{}) (interface{}, error) {
+	return config.GetWithDefault(path, defaultValue)
+}

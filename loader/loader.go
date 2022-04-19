@@ -1,8 +1,8 @@
 package loader
 
 import (
-	"alt-golang/config/properties"
 	"encoding/json"
+	"github.com/alt-golang/config/properties"
 	"gopkg.in/yaml.v2"
 	"os"
 	"reflect"
@@ -104,6 +104,17 @@ func LoadConfigByPrecedence(configDir string) map[string]interface{} {
 			AssignIn(config, precendentConfig)
 		}
 	}
+	envvars := map[string]interface{}{}
+	for _, env := range os.Environ() {
+		envPair := strings.SplitN(env, "=", 2)
+		key := envPair[0]
+		value := envPair[1]
+		envvars[key] = value
+	}
+	config["env"] = envvars
+	args := make([]string, 0)
+	config["args"] = append(args, os.Args...)
+
 	return config
 }
 
