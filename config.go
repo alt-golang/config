@@ -8,14 +8,15 @@ type Config interface {
 	GetWithDefault(path string, defaultValue interface{}) (interface{}, error)
 }
 
-var config = GetConfig()
+var config = Factory(loader.LoadConfig())
 
 func GetConfig() Config {
-	return Factory(loader.LoadConfig())
+	return config
 }
 
-func GetConfigWithDir(dir string) Config {
-	return Factory(loader.LoadConfigWithDir(dir))
+func GetConfigFromDir(dir string) Config {
+	config = Factory(loader.LoadConfigWithDir(dir))
+	return config
 }
 
 func Has(path string) bool {
