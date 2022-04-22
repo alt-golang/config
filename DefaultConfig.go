@@ -17,6 +17,9 @@ func (config DefaultConfig) Get(path string) (interface{}, error) {
 }
 
 func (config DefaultConfig) GetWithDefault(path string, defaultValue interface{}) (interface{}, error) {
+	if path == "" {
+		return config.object, nil
+	}
 	if config.object[path] != nil {
 		return config.object[path], nil
 	}
