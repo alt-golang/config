@@ -111,9 +111,11 @@ func LoadConfigByPrecedence(configDir string) map[string]interface{} {
 		value := envPair[1]
 		envvars[key] = value
 	}
-	config["env"] = envvars
+	envmap := map[string]interface{}{}
+	envmap["env"] = envvars
 	args := make([]string, 0)
-	config["args"] = append(args, os.Args...)
+	envmap["args"] = append(args, os.Args...)
+	AssignIn(config, envmap)
 
 	return config
 }

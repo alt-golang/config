@@ -11,7 +11,7 @@ type PlaceHolderResolver struct {
 	Resolver
 }
 
-func (placeHolderResolver PlaceHolderResolver) Callback(value interface{}) interface{} {
+func (placeHolderResolver PlaceHolderResolver) Callback(value interface{}, path string) interface{} {
 	if reflect.TypeOf(value).Kind() == reflect.String &&
 		placeHolderResolver.selector.Matches(value.(string)) {
 
@@ -41,6 +41,6 @@ func (placeHolderResolver PlaceHolderResolver) Callback(value interface{}) inter
 	return value
 }
 
-func (placeHolderResolver PlaceHolderResolver) Resolve(object interface{}) (interface{}, error) {
-	return ResolverMapValuesDeep(object, placeHolderResolver.Callback), nil
+func (placeHolderResolver PlaceHolderResolver) Resolve(object interface{}, path string) (interface{}, error) {
+	return ResolverMapValuesDeep(object, path, placeHolderResolver.Callback), nil
 }

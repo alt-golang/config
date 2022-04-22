@@ -14,6 +14,12 @@ func Factory(config map[string]interface{}) Config {
 		selector: PlaceHolderSelector{},
 	}
 
+	var urlResolver = URLResolver{
+		selector: PrefixSelector{
+			prefix: "url.",
+		},
+	}
+
 	var gosyptDecryptor = GosyptDecryptor{
 		selector: PrefixSelector{
 			prefix: "enc.",
@@ -21,7 +27,7 @@ func Factory(config map[string]interface{}) Config {
 		passphrase: passphrase,
 	}
 
-	var resolvers = []Resolver{nil, nil}
+	var resolvers = []Resolver{nil, nil, nil}
 	var delegatingResolver = DelegatingResolver{
 		resolvers: resolvers,
 	}
@@ -39,8 +45,11 @@ func Factory(config map[string]interface{}) Config {
 	}
 
 	placeHolderResolver.config = valueResolvingConfig
+	urlResolver.config = valueResolvingConfig
+
 	resolvers[0] = placeHolderResolver
-	resolvers[1] = gosyptDecryptor
+	resolvers[1] = urlResolver
+	resolvers[2] = gosyptDecryptor
 
 	return valueResolvingConfig
 }

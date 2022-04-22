@@ -11,7 +11,7 @@ func (valueResolvingConfig ValueResolvingConfig) Get(path string) (interface{}, 
 	if err != nil {
 		return nil, err
 	}
-	return valueResolvingConfig.resolver.Resolve(object)
+	return valueResolvingConfig.resolver.Resolve(object, path)
 }
 
 func (valueResolvingConfig ValueResolvingConfig) GetWithDefault(path string, defaultValue interface{}) (interface{}, error) {
@@ -19,7 +19,7 @@ func (valueResolvingConfig ValueResolvingConfig) GetWithDefault(path string, def
 	if err != nil {
 		return nil, err
 	}
-	return valueResolvingConfig.resolver.Resolve(object)
+	return valueResolvingConfig.resolver.Resolve(object, path)
 }
 
 func (valueResolvingConfig ValueResolvingConfig) Has(path string) bool {

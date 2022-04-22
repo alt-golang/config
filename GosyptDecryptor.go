@@ -11,7 +11,7 @@ type GosyptDecryptor struct {
 	Resolver
 }
 
-func (gosyptDecryptor GosyptDecryptor) Callback(value interface{}) interface{} {
+func (gosyptDecryptor GosyptDecryptor) Callback(value interface{}, path string) interface{} {
 	if reflect.TypeOf(value).Kind() == reflect.String &&
 		gosyptDecryptor.selector.Matches(value.(string)) {
 		selectedValue := gosyptDecryptor.selector.ResolveValue(value.(string))
@@ -23,6 +23,6 @@ func (gosyptDecryptor GosyptDecryptor) Callback(value interface{}) interface{} {
 	return value
 }
 
-func (gosyptDecryptor GosyptDecryptor) Resolve(object interface{}) (interface{}, error) {
-	return ResolverMapValuesDeep(object, gosyptDecryptor.Callback), nil
+func (gosyptDecryptor GosyptDecryptor) Resolve(object interface{}, path string) (interface{}, error) {
+	return ResolverMapValuesDeep(object, path, gosyptDecryptor.Callback), nil
 }

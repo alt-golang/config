@@ -5,11 +5,11 @@ type DelegatingResolver struct {
 	Resolver
 }
 
-func (delegatingResolver DelegatingResolver) Resolve(object interface{}) (interface{}, error) {
+func (delegatingResolver DelegatingResolver) Resolve(object interface{}, path string) (interface{}, error) {
 	resolvedObject := object
 	var err error
 	for i := 0; i < len(delegatingResolver.resolvers); i++ {
-		resolvedObject, err = delegatingResolver.resolvers[i].Resolve(resolvedObject)
+		resolvedObject, err = delegatingResolver.resolvers[i].Resolve(resolvedObject, path)
 		if err != nil {
 			return nil, err
 		}

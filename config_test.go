@@ -30,4 +30,7 @@ func TestConfig(t *testing.T) {
 	if val.(string) != "hello world" {
 		t.Errorf("config.Get(\"nested.encrypted\") != \"hello world\": nested.encrypted is:%s", val.(string))
 	}
+	val, _ = config.Get("fetchit.url")
+	t.Log("url ->", val)
+
 }

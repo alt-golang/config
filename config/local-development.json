@@ -23,5 +23,13 @@
   "env" : {
     "PROVIDED_ENV_VAR" : "provided-local-value",
     "MISSING_ENV_VAR" : "missing-local-value"
+  },
+  "fetchit": {
+    "url": "url.https://jsonplaceholder.typicode.com/todos/1",
+    "method": "get",
+    "body": {},
+    "headers": {
+      "authorization": "Basic dXNlcjpwYXNz",
+      "Content-Type": "application/json" }
   }
 }
