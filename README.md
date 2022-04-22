@@ -12,9 +12,11 @@ An extensible config package, supporting the usage elements of Spring Boot and N
 - cascading value over-rides using, GO_ENV, GO_APP_INSTANCE and GO_PROFILES_ACTIVE
 - placeholder resolution (or variable expansion),
 - encrypted values (via github.com/alt-golang/gosypt),
+- url fetching
 - environment variables (via config.get("env.MY_VAR"),
 - command line parameters (via config.get("args.MY_ARG")
-- and default (or fallback) values
+- and default (or fallback) values,
+
 
 <a name="usage">Usage</a>
 -------------------------
