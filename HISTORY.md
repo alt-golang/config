@@ -1,3 +1,8 @@
+1.0.4 / 2022-04-23
+==================
+
+* Expose dedicated service factory - @craigparra
+
 1.0.3 / 2022-04-23
 ==================
 

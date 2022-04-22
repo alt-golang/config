@@ -32,5 +32,6 @@ func TestConfig(t *testing.T) {
 	}
 	val, _ = config.Get("fetchit.url")
 	t.Log("url ->", val)
-
+	val, _ = config.Get("p1")
+	t.Log("decrypted ->", val)
 }

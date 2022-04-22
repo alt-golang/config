@@ -19,6 +19,11 @@ func GetConfigFromDir(dir string) Config {
 	return config
 }
 
+func GetServiceConfigFromDir(dir string) Config {
+	config = ServiceFactory(loader.LoadConfigWithDir(dir))
+	return config
+}
+
 func Has(path string) bool {
 	return config.Has(path)
 }

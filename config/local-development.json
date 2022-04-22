@@ -11,6 +11,8 @@
   "one" : "one",
   "placeholder": "start.${one}.${nested.two}.end",
   "placeholderEncrypted": "start.${nested.encrypted}.end",
+  "p1": "enc.${p2}",
+  "p2": "GdRcVgLKeYr3g5kKvq4TF1ba7OkwsUTNgTGAQ1C/usQ=",
   "nested" : {
     "key" : "value",
     "two" : "two",
