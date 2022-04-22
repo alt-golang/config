@@ -11,7 +11,7 @@ func TestJSONConfigIsOverloaded(t *testing.T) {
 	os.Setenv("GO_APP_INSTANCE", "instance")
 	os.Setenv("GO_PROFILES_ACTIVE", "1,2")
 	var config map[string]interface{}
-	config = LoadConfigWithDir("../test/config/json")
+	config = LoadConfigWithDir("../test/config/json", false)
 
 	if config["default"] != "default" {
 		t.Errorf("config[\"default\"] != \"default\": default is:%s", config["default"])
@@ -32,7 +32,7 @@ func TestJSONConfigIsOverloaded(t *testing.T) {
 	os.Setenv("GO_ENV", "")
 	os.Setenv("GO_APP_INSTANCE", "")
 	os.Setenv("GO_PROFILES_ACTIVE", "")
-	config = LoadConfigWithDir("../test/config/json")
+	config = LoadConfigWithDir("../test/config/json", false)
 	if config["local"] != "local" {
 		t.Errorf("config[\"local\"] != \"local\": local is:%s", config["local"])
 	}
@@ -48,7 +48,7 @@ func TestYAMLConfigIsOverloaded(t *testing.T) {
 	os.Setenv("GO_APP_INSTANCE", "instance")
 	os.Setenv("GO_PROFILES_ACTIVE", "1,2")
 	var config map[string]interface{}
-	config = LoadConfigWithDir("../test/config/yaml")
+	config = LoadConfigWithDir("../test/config/yaml", false)
 
 	if config["default"] != "default" {
 		t.Errorf("config[\"default\"] != \"default\": default is:%s", config["default"])
@@ -69,7 +69,7 @@ func TestYAMLConfigIsOverloaded(t *testing.T) {
 	os.Setenv("GO_ENV", "")
 	os.Setenv("GO_APP_INSTANCE", "")
 	os.Setenv("GO_PROFILES_ACTIVE", "")
-	config = LoadConfigWithDir("../test/config/yaml")
+	config = LoadConfigWithDir("../test/config/yaml", false)
 	if config["local"] != "local" {
 		t.Errorf("config[\"local\"] != \"local\": local is:%s", config["local"])
 	}
@@ -84,7 +84,7 @@ func TestPropertiesConfigIsOverloaded(t *testing.T) {
 	os.Setenv("GO_APP_INSTANCE", "instance")
 	os.Setenv("GO_PROFILES_ACTIVE", "1,2")
 	var config map[string]interface{}
-	config = LoadConfigWithDir("../test/config/properties")
+	config = LoadConfigWithDir("../test/config/properties", false)
 
 	if config["default"] != "default" {
 		t.Errorf("config[\"default\"] != \"default\": default is:%s", config["default"])
@@ -105,7 +105,7 @@ func TestPropertiesConfigIsOverloaded(t *testing.T) {
 	os.Setenv("GO_ENV", "")
 	os.Setenv("GO_APP_INSTANCE", "")
 	os.Setenv("GO_PROFILES_ACTIVE", "")
-	config = LoadConfigWithDir("../test/config/properties")
+	config = LoadConfigWithDir("../test/config/properties", false)
 	if config["local"] != "local" {
 		t.Errorf("config[\"local\"] != \"local\": local is:%s", config["local"])
 	}
@@ -116,7 +116,7 @@ func TestPropertiesConfigIsOverloaded(t *testing.T) {
 
 func TestNestedPropertiesConfigIsOverloaded(t *testing.T) {
 	var config map[string]interface{}
-	config = LoadConfigWithDir("../test/config/nesting")
+	config = LoadConfigWithDir("../test/config/nesting", false)
 
 	level1 := config["level1"].(map[string]interface{})
 	level2 := level1["level2"].(map[string]interface{})

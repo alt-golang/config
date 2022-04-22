@@ -1,3 +1,8 @@
+1.0.5 / 2022-04-23
+==================
+
+* Exclude service factory env and args - @craigparra
+
 1.0.4 / 2022-04-23
 ==================
 

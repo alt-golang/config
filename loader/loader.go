@@ -10,10 +10,10 @@ import (
 )
 
 func LoadConfig() map[string]interface{} {
-	return LoadConfigWithDir("config")
+	return LoadConfigWithDir("config", false)
 }
 
-func LoadConfigWithDir(configDir string) map[string]interface{} {
+func LoadConfigWithDir(configDir string, excludeEnv bool) map[string]interface{} {
 
 	path := ""
 	config := map[string]interface{}{
@@ -27,12 +27,12 @@ func LoadConfigWithDir(configDir string) map[string]interface{} {
 	}
 
 	if _, err := os.Stat(path); err == nil {
-		config = LoadConfigByPrecedence(path)
+		config = LoadConfigByPrecedence(path, excludeEnv)
 	}
 	return config
 }
 
-func LoadConfigByPrecedence(configDir string) map[string]interface{} {
+func LoadConfigByPrecedence(configDir string, excludeEnv bool) map[string]interface{} {
 	config := map[string]interface{}{}
 	dirpath := configDir + string(os.PathSeparator)
 	env := os.Getenv("GO_ENV")
@@ -104,18 +104,21 @@ func LoadConfigByPrecedence(configDir string) map[string]interface{} {
 			AssignIn(config, precendentConfig)
 		}
 	}
-	envvars := map[string]interface{}{}
-	for _, env := range os.Environ() {
-		envPair := strings.SplitN(env, "=", 2)
-		key := envPair[0]
-		value := envPair[1]
-		envvars[key] = value
+	if !excludeEnv {
+		envvars := map[string]interface{}{}
+		for _, env := range os.Environ() {
+			envPair := strings.SplitN(env, "=", 2)
+			key := envPair[0]
+			value := envPair[1]
+			envvars[key] = value
+		}
+		envmap := map[string]interface{}{}
+		envmap["env"] = envvars
+		args := make([]string, 0)
+		envmap["args"] = append(args, os.Args...)
+
+		AssignIn(config, envmap)
 	}
-	envmap := map[string]interface{}{}
-	envmap["env"] = envvars
-	args := make([]string, 0)
-	envmap["args"] = append(args, os.Args...)
-	AssignIn(config, envmap)
 
 	return config
 }

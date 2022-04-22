@@ -15,12 +15,12 @@ func GetConfig() Config {
 }
 
 func GetConfigFromDir(dir string) Config {
-	config = Factory(loader.LoadConfigWithDir(dir))
+	config = Factory(loader.LoadConfigWithDir(dir, false))
 	return config
 }
 
 func GetServiceConfigFromDir(dir string) Config {
-	config = ServiceFactory(loader.LoadConfigWithDir(dir))
+	config = ServiceFactory(loader.LoadConfigWithDir(dir, true))
 	return config
 }
 
