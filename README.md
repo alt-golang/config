@@ -1,4 +1,4 @@
-An Extensible Config Package, supporting the usage elements of Spring Boot and Node "config" in Go
+An Extensible Config Package, supporting the usage idioms of Spring Boot, dotnet and Node "config" in Go
 =====================================
 
 
