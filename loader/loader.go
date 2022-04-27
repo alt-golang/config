@@ -10,9 +10,66 @@ import (
 )
 
 func LoadConfig() map[string]interface{} {
-	return LoadConfigWithDir("config", false)
+	config := "."
+	dir := os.Getenv("GO_CONFIG_DIR")
+	if dir != "" {
+		config = dir
+	}
+
+	if DetectConfigDir() {
+		config = "config"
+	}
+	return LoadConfigWithDir(config, false)
 }
 
+func DetectConfigDir() bool {
+	if _, err := os.Stat("config/default.json"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/default.yml"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/default.yaml"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/default.props"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/default.properties"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/production.json"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/production.yml"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/production.yaml"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/production.props"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/production.properties"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/local-development.json"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/local-development.yml"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/local-development.yaml"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/local-development.props"); err == nil {
+		return true
+	}
+	if _, err := os.Stat("config/local-development.properties"); err == nil {
+		return true
+	}
+	return false
+}
 func LoadConfigWithDir(configDir string, excludeEnv bool) map[string]interface{} {
 
 	path := ""
@@ -36,6 +93,10 @@ func LoadConfigByPrecedence(configDir string, excludeEnv bool) map[string]interf
 	config := map[string]interface{}{}
 	dirpath := configDir + string(os.PathSeparator)
 	env := os.Getenv("GO_ENV")
+	environment := os.Getenv("GO_ENVIRONMENT")
+	if environment != "" {
+		env = environment
+	}
 	if len(env) == 0 {
 		env = "local"
 	}
@@ -46,11 +107,21 @@ func LoadConfigByPrecedence(configDir string, excludeEnv bool) map[string]interf
 	profiles := strings.Split(os.Getenv("GO_PROFILES_ACTIVE"), ",")
 	precedence := make([]interface{}, 0)
 	precedence = append(precedence,
+		dirpath+"config.json",
+		dirpath+"config.yml",
+		dirpath+"config.yaml",
+		dirpath+"config.props",
+		dirpath+"config.properties",
 		dirpath+"default.json",
 		dirpath+"default.yml",
 		dirpath+"default.yaml",
 		dirpath+"default.props",
 		dirpath+"default.properties",
+		dirpath+"appsettings.json",
+		dirpath+"appsettings.yml",
+		dirpath+"appsettings.yaml",
+		dirpath+"appsettings.props",
+		dirpath+"appsettings.properties",
 		dirpath+"application.json",
 		dirpath+"application.yml",
 		dirpath+"application.yaml",
@@ -61,6 +132,11 @@ func LoadConfigByPrecedence(configDir string, excludeEnv bool) map[string]interf
 		dirpath+env+".yaml",
 		dirpath+env+".props",
 		dirpath+env+".properties",
+		dirpath+"appsettings."+env+".json",
+		dirpath+"appsettings."+env+".yml",
+		dirpath+"appsettings."+env+".yaml",
+		dirpath+"appsettings."+env+".props",
+		dirpath+"appsettings."+env+".properties",
 		dirpath+env+"-"+instance+".json",
 		dirpath+env+"-"+instance+".yml",
 		dirpath+env+"-"+instance+".yaml",

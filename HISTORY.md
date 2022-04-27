@@ -1,3 +1,10 @@
+1.0.6 / 2022-04-23
+==================
+
+* GetAs support - @craigparra
+* Prefer root working dir, with config dir detection - @craigparra
+* Suport idiomatic dotnet appsettings, with config dir detection - @craigparra
+
 1.0.5 / 2022-04-23
 ==================
 

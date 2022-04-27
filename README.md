@@ -28,6 +28,7 @@ import  ( "github.com/alt-golang/config") ;
 
 config.Get('key');
 config.Get('nested.key');
+config.GetAs('nested.key',&SomeStruct);
 config.GetWithDefault('unknown','use this instead'); // this does not throw an error
 ```
 
@@ -36,13 +37,20 @@ config.GetWithDefault('unknown','use this instead'); // this does not throw an e
 The module follows the file loading and precedence rules of the popular Node
 [config](https://www.npmjs.com/package/config) defaults, with additional rules in the style of Spring Boot.
 
-Files are loaded and over-ridden from the `config` folder in the following order:
+By default, files are loaded from the working directory, or from the config folder if a default.**, production.**, 
+or local-development.** file is detected (after the Node "config" idiom).  The NODE_CONFIG_DIR variable can be 
+specified to change the default.
+
+Files are over-ridden from the indicated folder in the following order:
+
+- config.( json | yml | yaml | props | properties )
 - default.( json | yml | yaml | props | properties )
 - application.( json | yml | yaml | props | properties )
+- appsettings.( json | yml | yaml | props | properties )
 - {GO_ENV}.( json | yml | yaml | props | properties )
+- appsettings.{GO_ENV}.( json | yml | yaml | props | properties )
 - {GO_ENV}-{GO_APP_INSTANCE}.( json | yml | yaml | props | properties )
-- {GO_ENV}-{GO_APP_INSTANCE}.( json | yml | yaml | props | properties )
-- {GO_ENV}-{GO_APP_INSTANCE}.( json | yml | yaml | props | properties )
+- appsettings.{GO_ENV}.{GO_APP_INSTANCE}.( json | yml | yaml | props | properties )
 - application-{GO_PROFILES_ACTIVE[0]}.( json | yml | yaml | props | properties )
 - application-{GO_PROFILES_ACTIVE[1]}.( json | yml | yaml | props | properties )
 - environment variables (over-ridden into env)
@@ -61,16 +69,41 @@ env:
 will be over-ridden only if it exists on the host system, negating the need for 
 setting local development environment variables or arguments.
 
+### Placeholders, encrypted values, and remote config
+
 Config values that include the common `${placeholder}` syntax, will resolve the inline
 placeholders, so the `config.get('placeholder')'` path below will return `start.one.two.end`.
-
-### Placeholders, encrypted values
 
 Config values that start with the prefix `enc.` will be decrypted with the
 [gosypt](https://github.com/alt-golang/gosypt) package port, with the AES 16,32,64 byte passphrase being
 sourced from the `GO_CONFIG_PASSPHRASE` environment variable.
 
+Config values that start with the prefix `url.` are be fetched and resolved , and HTTP options can be specified as in 
+the example config file.  
 
+`config.yaml`
+```yaml
+
+  "key": "value"
+  "one" : "one"
+  "placeholder": "start.${one}.${nested.two}.end"
+  "placeholderEncrypted": "start.${nested.encrypted}.end"
+  "nested" : 
+    "key" : "value"
+    "two" : "two"
+    "placeholder": "start.${one}.${nested.two}.end"
+    "encrypted" : "enc.pxQ6z9s/LRpGB+4ddJ8bsq8RqELmhVU2"
+    "encryptedWithSecret" : "enc./emLGkD3cbfqoSPijGZ0jh1p1SYIHQeJ"
+  "jsonplaceholder": 
+    "todos": "url.https://jsonplaceholder.typicode.com/todos/1"
+  "fetchWithOpts" : 
+    "url": "url.https://jsonplaceholder.typicode.com/todos/1"
+    "method": "get",
+    "body": "{}"
+    "headers":
+      "Authorization": "Basic dXNlcjpwYXNz"
+      "Content-Type": "application/json"
+```
 <a name="license">License</a>
 -----------------------------
 
